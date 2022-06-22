@@ -1,20 +1,28 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {useGetBooksQuery} from "../../api/booksApi";
+
 const initialState = {
-    books: []
+    name: 'js',
+    orderBy: 'relevance',
+    category: 'all',
+    isSubmitted: false
 }
 
-export const booksSlice = createSlice({
-    name: 'books',
+export const filterSlice = createSlice({
+    name: 'filter',
     initialState,
-    reducers : {
-        get: state => {
-            const {data} = useGetBooksQuery()
-            state.books = data
+    reducers: {
+        setFilter: (state, action) => {
+            state.name = action.payload.name
+            state.orderBy = action.payload.orderBy
+            state.category = action.payload.category
+            state.isSubmitted = true
+        },
+        resetForm: state => {
+            state.isSubmitted = false
         }
     }
 })
 
-export const { get,} = booksSlice.actions
+export const {setFilter, resetForm} = filterSlice.actions
 
-export default booksSlice.reducer
+export default filterSlice.reducer
